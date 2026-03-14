@@ -22,4 +22,10 @@ public class WikiController : Controller
 
         return View(await _wikiPageService.ListAsync(page));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        return View();
+    }
 }

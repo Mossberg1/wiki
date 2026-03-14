@@ -1,0 +1,44 @@
+@model Domain.Models.WikiPage;
+
+@{
+    ViewData["Title"] = "Create New Page";
+}
+
+<div class="container mt-4">
+    <h2>Create New Wiki Page</h2>
+    <hr />
+
+    <form asp-controller="Wiki" asp-action="Create" method="post">
+        
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label text-primary fw-bold">Page Title</label>
+            <input asp-for="Title" class="form-control form-control-lg" placeholder="e.g., How to Setup the Database" required />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label text-primary fw-bold">Content</label>
+            <textarea asp-for="Content" id="markdown-editor"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg">Save Page</button>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-lg ms-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var easyMDE = new EasyMDE({ 
+                element: document.getElementById('markdown-editor'),
+                spellChecker: false, // Optional: turns off the red squiggly lines
+                placeholder: "Start typing your markdown here...",
+                minHeight: "400px"
+            });
+        });
+    </script>
+}
