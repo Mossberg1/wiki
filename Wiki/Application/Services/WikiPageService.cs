@@ -14,6 +14,14 @@ internal class WikiPageService : IWikiPageService
     {
         _wikiPageRepository = wikiPageRepository;
     }
+
+    public async Task<PaginatedList<WikiPageDto>> ListAsync(int pageNumber)
+    {
+        var pages = await _wikiPageRepository.ListAsync(pageNumber, _pageSize);
+        var mappedPages = pages.Items.Select(WikiPageDto.FromEntity).ToList();
+        
+        return new PaginatedList<WikiPageDto>(mappedPages, pages.TotalCount, pageNumber, _pageSize);
+    }
     
     public async Task<PaginatedList<WikiPageDto>> SearchAsync(string query, int pageNumber)
     {
