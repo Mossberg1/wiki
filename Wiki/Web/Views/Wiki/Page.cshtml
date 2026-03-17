@@ -1,0 +1,44 @@
+@using Application.Common.Dtos.WikiPageDtos;
+
+@model WikiPageDetailsDto;
+
+@{
+    ViewData["Title"] = "Wiki Pages";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            
+            <div class="mb-4">
+                <h1 class="display-4 fw-bold text-primary">@Model.Title</h1>
+                <div class="text-muted">
+                    <small>
+                        <i class="bi bi-clock"></i> Last updated: @Model.CreatedAt.ToString("MMM dd, yyyy")
+                    </small>
+                </div>
+            </div>
+
+            <hr />
+
+            <article class="mt-4 fs-5" style="line-height: 1.8;">
+                @* CRITICAL: If your backend converts Markdown to HTML, 
+                   you MUST use Html.Raw() or it will print the literal tags 
+                *@
+                @Html.Raw(Model.Content)
+            </article>
+
+            <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    &larr; Back to Wiki
+                </a>
+                <div>
+                    <a asp-action="Edit" asp-route-slug="" class="btn btn-primary">
+                        Edit Page
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

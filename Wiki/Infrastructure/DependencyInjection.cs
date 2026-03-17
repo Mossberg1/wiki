@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Infrastructure.Parsers;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IWikiPageRepository, WikiPageRepository>();
+        services.AddScoped<IMarkdownParser, MarkdigParser>();
 
         return services;
     }

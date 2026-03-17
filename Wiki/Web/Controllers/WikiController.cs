@@ -28,4 +28,11 @@ public class WikiController : Controller
     {
         return View();
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Page(int id)
+    {
+        var page = await _wikiPageService.GetAsync(id);
+        return View(page);
+    }
 }

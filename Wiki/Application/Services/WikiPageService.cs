@@ -8,11 +8,26 @@ namespace Application.Services;
 internal class WikiPageService : IWikiPageService
 {
     private readonly IWikiPageRepository _wikiPageRepository;
+    private readonly IMarkdownParser _markdownParser;
     private const int _pageSize = 24;
 
-    public WikiPageService(IWikiPageRepository wikiPageRepository)
+    public WikiPageService(IWikiPageRepository wikiPageRepository, IMarkdownParser markdownParser)
     {
         _wikiPageRepository = wikiPageRepository;
+        _markdownParser = markdownParser;
+    }
+
+    public async Task<WikiPageDetailsDto?> GetAsync(int id)
+    {
+        var page = await _wikiPageRepository.GetByIdAsync(id);
+        if (page == null)
+        {
+            return null;
+        }
+        
+        var htmlContent = _markdownParser.ToHtml(page.Content);
+        
+        return WikiPageDetailsDto.FromEntity(page, htmlContent);
     }
 
     public async Task<PaginatedList<WikiPageDto>> ListAsync(int pageNumber)
