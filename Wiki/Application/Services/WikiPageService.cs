@@ -17,6 +17,14 @@ internal class WikiPageService : IWikiPageService
         _markdownParser = markdownParser;
     }
 
+    public async Task<int> CreateAsync(WikiPageCreateDto dto)
+    {
+        var wikiPage = WikiPageCreateDto.ToEntity(dto);
+        await _wikiPageRepository.CreateAsync(wikiPage);
+
+        return wikiPage.Id;
+    }
+
     public async Task<WikiPageDetailsDto?> GetAsync(int id)
     {
         var page = await _wikiPageRepository.GetByIdAsync(id);

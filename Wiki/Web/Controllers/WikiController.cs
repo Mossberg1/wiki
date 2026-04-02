@@ -1,3 +1,4 @@
+using Application.Common.Dtos.WikiPageDtos;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,18 @@ public class WikiController : Controller
     public async Task<IActionResult> Create()
     {
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromForm] WikiPageCreateDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var id = await _wikiPageService.CreateAsync(dto);
+        return RedirectToAction(nameof(Index), new { id = id });
     }
 
     [HttpGet]
